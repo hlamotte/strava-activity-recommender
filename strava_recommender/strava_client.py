@@ -12,16 +12,23 @@ class Strava_Client():
     '''
     Strava client.
 
-    Can make post requests not requiring OAuth after successful instantiation. To make post requests requiring OAuth call the OAuth() method, and after authenticating in a browser
+    Can make post requests not requiring OAuth after successful instantiation. 
+    
+    To make post requests requiring OAuth call the OAuth() method, and after authenticating in a browser
     paste the resulting url into the authorize(url) method.
 
     Args:
         credentials_path (str): Path to a json file containing your client_id, client_secret and refresh token
+        test (bool, optional): Hits mock API for tests when set to True. Defaults to False.
 
     '''
-    def __init__(self, credentials_path):
+    def __init__(self, credentials_path, test=False):
+        
         # read credentials from strava_credentials.json
         self.credentials_path = credentials_path
+        if test:
+            self.credentials_path = 'tests/fixtures/test_credentials.json'
+        
         self.read_credentials()
 
         self.update_token()
@@ -68,8 +75,8 @@ class Strava_Client():
     
     def authorize(self, authorization_url):
         '''Provide the OAuth authentication resulting url'''
-        #print('Please go to %s and authorize access.' % authorization_url)
-        #authorization_url = input('Enter the full callback URL')
+
+
 
         #http://localhost/?state=1UR5WX5e5p7LzCq5GgS4o8sLI74RX6&code=a1cecab69447fd4e3b5775e7698d15868e676678&scope=read,activity:read_all
 
@@ -92,14 +99,14 @@ class Strava_Client():
     
     def get(self, url, params={}):
         '''Make get request to the Strava API'''
-        # is it necessary to rotate tokens here?
+
         self.update_token()
-        #print('access_token: ', self.access_token, '\nrefresh_token: ', self.refresh_token)
+
         headers = {"Authorization": f"Bearer {self.access_token}"}
         if self.oauth is not None:
             return self.oauth.get(url, params=params)
         return requests.get(url, params=params, headers=headers)
 
-    #def get_segments(self, )
+
 
     
