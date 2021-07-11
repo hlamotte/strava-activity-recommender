@@ -1,2 +1,5 @@
-sphinx
 sphinx-book-theme
+sphinx>=3.3
+sphinx-autodoc-typehints
+sphinx-argparse
+-e .
