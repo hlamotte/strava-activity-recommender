@@ -41,6 +41,7 @@ jobs:
     - name: Install ctwrap
       run: |
         pip install -e .
+        pip install -r requirements.txt
     - name: Install Sphinx dependencies
       run: |
         cd docs
